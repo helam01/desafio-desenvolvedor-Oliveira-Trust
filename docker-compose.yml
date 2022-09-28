@@ -1,0 +1,29 @@
+version: "3"
+services:
+  ot_mysqlsrv:
+    #    platform: linux/x86_64
+    image: mysql:5.7.32
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: "base_test"
+    ports:
+      - "3312:3306"
+    volumes:
+      - ./.docker/mysql/data:/var/lib/mysql
+  ot_app:
+    build:
+      context: .
+      dockerfile: ./.docker/php/Dockerfile
+    user: 1000:1000
+    volumes:
+      - ./src:/var/www/html
+      - ./src/.env.example:/var/www/html/.env
+      - ./.docker/php/afterbuild.sh:/.docker/afterbuild.sh
+      - ./.docker/php/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
+      - ./.docker/php/ports.conf:/etc/apache2/ports.conf
+      - ./.docker/php/interface.conf:/etc/apache2/sites-enabled/interface.conf
+    depends_on:
+      - ot_mysqlsrv
+    ports:
+      - 9031:9022
+      - 5173:5173
