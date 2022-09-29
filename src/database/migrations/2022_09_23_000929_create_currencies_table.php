@@ -13,10 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sells_products', function (Blueprint $table) {
+        Schema::create('currencies', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('sell_id')->constrained();
-            $table->foreignId('product_id')->constrained();
+            $table->string('code');
+            $table->string('label');
+            $table->string('money_sign')->nullable();
+            $table->enum('is_origin', ['yes', 'no']);
+            $table->enum('is_target', ['yes', 'no']);
             $table->timestamps();
         });
     }
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sells_products');
+        Schema::dropIfExists('currencies');
     }
 };

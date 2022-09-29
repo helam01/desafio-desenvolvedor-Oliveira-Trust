@@ -14,8 +14,7 @@ root.render(
     <BrowserRouter>
         <div className="App">
           <header className="App-header">
-            <img src="" className="App-logo" alt="logo" />
-            <p>Painel de Gestão</p>
+            <p>Painel de conversão de moedas</p>
           </header>
           <main>
             <div id="content-container">

@@ -13,12 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sells', function (Blueprint $table) {
+        Schema::create('conversion_rules', function (Blueprint $table) {
             $table->id();
-            $table->string('code');
-            $table->foreignId('client_id')->constrained();
-            $table->float('total_amount');
-            $table->timestamp('sell_date');
+            $table->float('conversion_min_value');
+            $table->float('conversion_max_value');
+            $table->longtext('conversion_fee');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sells');
+        Schema::dropIfExists('conversion_rules');
     }
 };

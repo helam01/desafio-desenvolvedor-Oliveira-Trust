@@ -30,3 +30,16 @@ docker-compose exec -u root ot_app /.docker/afterbuild.sh
 Após o passo anterir, a aplicação deve estar acessível no endereço:
 
 > http://localhost:9031
+
+Para executar o frontend enquanto estiver desenvolvendo,
+é usado o Vite para escutar as alterações do ReactJS:
+
+```
+docker-compose exec -u root ot_app npm run dev
+```
+
+Para executar o build do frontend:
+
+```
+docker-compose exec -u root ot_app npm run build
+```

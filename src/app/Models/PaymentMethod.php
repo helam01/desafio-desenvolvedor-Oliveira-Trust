@@ -4,13 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class PaymentMethod extends Model
 {
-    protected $table = 'products';
+    protected $table = 'payments_methods';
 
     protected $fillable = [
-        'code',
         'name',
-        'amount',
+        'fee',
+        'active'
     ];
 }
