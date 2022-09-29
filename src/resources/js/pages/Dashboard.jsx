@@ -1,5 +1,6 @@
 import { defaults } from "lodash";
 import React from "react";
+import CurrencyInput from '../components/form/inputs/currencyInput';
 
 class Dashboard extends React.Component {
     constructor(props) {
@@ -7,86 +8,55 @@ class Dashboard extends React.Component {
         this.state = {
             inputOriginCurrency:<></>,
             origin:{currency:1, value:0},
-            targer:{currency:null, value:0}
+            target:{currency:null, value:0}
         }
 
-        this.loadOriginCurrencies = this.loadOriginCurrencies.bind(this)
         this.convertHandler = this.convertHandler.bind(this)
         this.originValueChangeHandler = this.originValueChangeHandler.bind(this)
     }
 
-    loadOriginCurrencies() {
-        let options =  [
-            {
-                id:1,
-                name:'BRL',
-            }
-        ];
-
-        let inputOptions = options.map((item, i) => {
-            return (
-                <option key={'origin-c-'+i} value={item.id}>
-                    {item.name}
-                </option>)
-        });
-
-        let inputElement = <select
-            className="input-dropdown"
-            name="origin_currency">
-            {inputOptions}
-        </select>
-
-        this.setState({inputOriginCurrency:inputElement})
-    }
-
-    loadTargetCurrencies() {
-        return [
-            {
-                id:2,
-                name:'USD'
-            },
-            {
-                id:3,
-                name:'EUR'
-            },
-        ];
-    }
-
-    originValueChangeHandler(event) {
+    originValueChangeHandler(value) {
         let origin = this.state.origin;
-        origin.value = event.target.value;
+        let target = this.state.target;
+
+        origin.value = value;
+        target.value = (value / 5.35).toFixed(2);
 
         this.setState({origin: origin});
+        this.setState({target: target});
     }
 
     convertHandler() {
         console.log("Origin: ", this.state.origin);
+        console.log("Target: ", this.state.target);
     }
 
     componentDidMount() {
-        this.loadOriginCurrencies()
+        console.log('componentDidMount')
     }
 
     render() {
         return(
             <>
             <section className="page-section">
-                <div className="input-currency-container">
-                    <div className="input-label-block">
-                        <label htmlFor="origin_value_input">Moeda origem</label>
-                    </div>
-                    <div className="input-money-block">
-                        <input
-                            id="origin_value_input"
-                            type="number"
-                            name="value"
-                            value={this.state.origin.value}
-                            onChange={this.originValueChangeHandler} />
-                    </div>
-                    <div className="input-currency-block">
-                        {this.state.inputOriginCurrency}
-                    </div>
-                </div>
+                <CurrencyInput
+                    label="Moeda origem"
+                    inputName="origin_currency_value"
+                    selectName="origin_currency_option"
+                    valuesOptionSourceURL="/api/currencies/origins"
+                    value={this.state.origin.value}
+                    readOnly={false}
+                    valueChangeHandler={this.originValueChangeHandler}
+                />
+                <CurrencyInput
+                    label="Moeda origem"
+                    inputName="target_currency_value"
+                    selectName="target_currency_option"
+                    valuesOptionSourceURL="/api/currencies/targets"
+                    value={this.state.target.value}
+                    readOnly={true}
+                    valueChangeHandler={this.originValueChangeHandler}
+                />
                 <div className="input-action-container">
                     <button
                         id="btn-convert"

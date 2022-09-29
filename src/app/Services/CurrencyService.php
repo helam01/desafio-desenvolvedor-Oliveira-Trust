@@ -2,25 +2,25 @@
 
 namespace App\Services;
 
-use App\Models\Client;
+use App\Models\Currency;
 
-class ClientService
+class CurrencyService
 {
-    public function getList()
+    public function getOriginList()
     {
-        # Aqui faria tratamento para receber opções de filtros de pesquisa
-        # E tambem faria a busca com paginação
-
-        $list = Client::get();
-
-        # Aqui faria formatação dos dados antes de retornar
+        $list = Currency::select('id','code','label','money_sign')
+            ->where('is_origin','yes')
+            ->get();
 
         return $list;
     }
 
-    public function register($inputs)
+    public function getTargetList()
     {
-        # Aqui faria uma validação dos dados, verificando se está tudo certo antes de persistir na base
-        return Client::create($inputs);
+        $list = Currency::select('id','code','label','money_sign')
+            ->where('is_target','yes')
+            ->get();
+
+        return $list;
     }
 }

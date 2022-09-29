@@ -10,7 +10,7 @@ import './bootstrap';
 
 const root = ReactDOM.createRoot(document.getElementById('app-root'));
 root.render(
-  <React.StrictMode>
+  <React.Fragment>
     <BrowserRouter>
         <div className="App">
           <header className="App-header">
@@ -23,5 +23,5 @@ root.render(
             </main>
         </div>
     </BrowserRouter>
-  </React.StrictMode>
+  </React.Fragment>
 );

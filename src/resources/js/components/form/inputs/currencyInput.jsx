@@ -1,11 +1,12 @@
 import React from "react";
+import HttpService from "../../../services/HttpService";
 
 class CurrencyInput extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            value:0,
+            value:this.props.value,
             currencyOptionsInput:<></>
         }
 
@@ -14,32 +15,32 @@ class CurrencyInput extends React.Component {
     }
 
     valueChangeHandler(event) {
-        this.setState({value: event.target.value});
-        this.props.valueChangeHandler(event.target.value);
+        if (this.props.readOnly===false) {
+            this.setState({value: event.target.value});
+            this.props.valueChangeHandler(event.target.value);
+        }
     }
 
     loadOriginCurrencies() {
-        let options =  [
-            {
-                id:1,
-                name:'BRL',
-            }
-        ];
+        HttpService.exec({
+            "url":this.props.valuesOptionSourceURL,
+            "method":"get",
+        }).then(options => {
+            let inputOptions = options.map((item, i) => {
+                return (
+                    <option key={'origin-c-'+i} value={item.id}>
+                        {item.label}
+                    </option>)
+            });
 
-        let inputOptions = options.map((item, i) => {
-            return (
-                <option key={'origin-c-'+i} value={item.id}>
-                    {item.name}
-                </option>)
-        });
+            let inputElement = <select
+                className="input-dropdown"
+                name={this.props.selectName}>
+                {inputOptions}
+            </select>
 
-        let inputElement = <select
-            className="input-dropdown"
-            name="origin_currency">
-            {inputOptions}
-        </select>
-
-        this.setState({currencyOptionsInput:inputElement})
+            this.setState({currencyOptionsInput:inputElement})
+        })
     }
 
     componentDidMount() {
@@ -50,13 +51,13 @@ class CurrencyInput extends React.Component {
         return (
         <div className="input-currency-container">
             <div className="input-label-block">
-                <label htmlFor="origin_value_input">{this.props.label}</label>
+                <label >{this.props.label}</label>
             </div>
             <div className="input-money-block">
                 <input
                     type="number"
-                    name={this.props.name}
-                    value={this.state.value}
+                    name={this.props.inputName}
+                    value={this.props.value}
                     onChange={this.valueChangeHandler} />
             </div>
             <div className="input-currency-block">

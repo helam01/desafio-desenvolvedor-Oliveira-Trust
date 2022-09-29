@@ -2,9 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ClientController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\SellController;
+use App\Http\Controllers\CurrencyController;
 
 
 /*
@@ -27,18 +25,9 @@ Route::get('/', function(){
 });
 
 
-Route::group(['prefix' => 'clients'], function () {
-    Route::get('/', [ClientController::class, 'getList']);
-    Route::post('/', [ClientController::class, 'register']);
+Route::group(['prefix' => 'currencies'], function () {
+    Route::get('/origins', [CurrencyController::class, 'getOriginList']);
+    Route::get('/targets', [CurrencyController::class, 'getTargetList']);
 });
 
-Route::group(['prefix' => 'products'], function () {
-    Route::get('/', [ProductController::class, 'getList']);
-    Route::post('/', [ProductController::class, 'register']);
-});
-
-Route::group(['prefix' => 'sells'], function () {
-    Route::get('/', [SellController::class, 'getList']);
-    Route::post('/', [SellController::class, 'register']);
-});
 

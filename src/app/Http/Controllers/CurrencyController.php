@@ -19,6 +19,11 @@ class CurrencyController extends Controller
     {
         $list = $this->currencyService->getOriginList();
         return response()->json($list);
+    }
 
+    public function getTargetList()
+    {
+        $list = $this->currencyService->getTargetList();
+        return response()->json($list);
     }
 }
